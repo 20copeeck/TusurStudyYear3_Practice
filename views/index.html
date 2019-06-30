@@ -1,0 +1,24 @@
+{% extends "main_layout.html" %}
+
+{% block content %}
+<table border="1" style="width: 80%;">
+    <thead>
+    <tr>
+        <td>Имя</td>
+        <td>Предмет</td>
+        <td>Возраст</td>
+        <td>Начал(а) работать</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for staffer in staff %}
+    <tr>
+        <td>{{ staffer.name }}</td>
+        <td>{{ staffer.description }}</td>
+        <td>{{ staffer.age }}</td>
+        <td>{{ staffer.date_register|date("m/d/Y") }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

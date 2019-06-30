@@ -1,0 +1,13 @@
+{
+    "name": "20copeeck/auth",
+    "description": "Authentification project",
+    "authors": [
+        {
+            "name": "Alexander Genze",
+            "email": "aleksandr.genze@mail.ru"
+        }
+    ],
+    "require": {
+        "twig/twig": "^2.11"
+    }
+}
