@@ -1,7 +1,89 @@
 {% extends "main_layout.html" %}
 
 {% block content %}
-<table border="1" style="width: 80%;">
+
+<div id="login">
+    <h2>Добро пожаловать на наш сайт</h2>
+    <form action="index.php" method="post" name="login">
+        <table>
+            <tbody>
+            <tr>
+                <td> Логин:</td>
+                <td>
+                    <input type="login" name="login" required="required"><br>
+                </td>
+            </tr>
+            <tr>
+                <td> Пароль:</td>
+                <td>
+                    <input type="password" name="password" required="required"><br>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" name="submit_login" value="Войти">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+<div id="register">
+    <h2>Регистрация</h2>
+
+    <form action="index.php" method="post" name="register">
+        <table>
+            <tbody>
+            <tr>
+                <td> Имя: </td>
+                <td>
+                    <input type="text" name="name" required>
+                </td>
+            </tr>
+            <tr>
+                <td> Фамилия: </td>
+                <td>
+                    <input type="text" name="surname" required>
+                </td>
+            </tr>
+            <tr>
+                <td> Email: </td>
+                <td>
+                    <input type="email" name="email" required><br>
+                    <span id="valid_email_message" class="mesage_error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td> Номер телефона: </td>
+                <td>
+                    <input type="phone" name="phone" required pattern="^[0-9]{11}" required><br>
+                </td>
+            </tr>
+            <tr>
+                <td> Логин: </td>
+                <td>
+                    <input type="text" name="login" required>
+                </td>
+            </tr>
+            <tr>
+                <td> Пароль: </td>
+                <td>
+                    <input type="password" name="password" required><br>
+                    <span id="valid_password_message" class="mesage_error"></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" name="submit_register" value="Зарегистрироватся">
+                </td>
+            </tr>
+            </tbody></table>
+    </form>
+</div>
+
+
+<!--<table border="1" style="width: 80%;">
     <thead>
     <tr>
         <td>Имя</td>
@@ -20,5 +102,5 @@
     </tr>
     {% endfor %}
     </tbody>
-</table>
+</table>-->
 {% endblock %}

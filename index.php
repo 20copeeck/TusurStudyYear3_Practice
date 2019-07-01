@@ -2,7 +2,12 @@
 
 require_once __DIR__.'/init.php';
 
-// Создаем список сотрудников
+require_once 'Auth_class.php';
+
+Authentication::Login();
+Authentication::Register();
+
+/*// Создаем список сотрудников
 $staff = [
     [   'name'    => 'Андрей',
         'description'   => 'Физика',
@@ -21,7 +26,7 @@ $staff = [
         'age'           =>  27,
         'date_register' => '2017-10-25',
     ],
-];
+];*/
 
 // вывод данных на страницу
-echo $twig->render('index.html', ['staff' => $staff] );
+echo $twig->render('index.html');
