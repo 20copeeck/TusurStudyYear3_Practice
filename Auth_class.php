@@ -1,23 +1,64 @@
 <?php
-
+/**
+ * Stores an array of configuration file
+ *
+ * @var array
+ */
 $param = parse_ini_file("config.ini");
+/**
+ * Constant hostname
+ */
 define('DB_SERVER', $param['DB_SERVER']);
+/**
+ * Constant username MySQL
+ */
 define('DB_USERNAME', $param['DB_USERNAME']);
+/**
+ * Constant user password MySQL
+ */
 define('DB_PASSWORD', $param['DB_PASSWORD']);
+/**
+ * Constant database name
+ */
 define('DB_DATABASE', $param['DB_DATABASE']);
 
+/**
+ * @see DataBase_class
+ */
 require_once 'DataBase_class.php';
 
-
+/**
+ * Class Authentication
+ *
+ * With the help of MySQL queries it registers
+ * the user and logs in to the account.
+ * @return void
+ */
 class Authentication
 {
+    /**
+     * Stores the result of the database connection
+     *
+     * @var object|bool
+     */
     private static $_dbConnect;
 
+    /**
+     * Creates a database connection
+     *
+     * @uses DataBase::ConnectDB
+     * @return void
+     */
     private static function ConnectDB()
     {
         self::$_dbConnect = DataBase::ConnectDB(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
     }
 
+    /**
+     * Allows the user to log in
+     *
+     * @return void
+     */
     public static function Login()
     {
         if(isset($_POST['submit_login'])){
@@ -44,6 +85,11 @@ class Authentication
         }
     }
 
+    /**
+     * Allows the user to register
+     *
+     * @return void
+     */
     public static function Register()
     {
         if(isset($_POST['submit_register'])){
@@ -52,7 +98,6 @@ class Authentication
             $name = mysqli_real_escape_string(self::$_dbConnect, trim($_POST['name']));
             $surname = mysqli_real_escape_string(self::$_dbConnect, trim($_POST['surname']));
             $email = mysqli_real_escape_string(self::$_dbConnect, trim($_POST['email']));
-            #Проверяем формат полученного почтового адреса с помощью регулярного выражения
             $reg_email = "/^[a-z0-9][a-z0-9\._-]*[a-z0-9]*@([a-z0-9]+([a-z0-9-]*[a-z0-9]+)*\.)+[a-z]+/i";
             if (!preg_match($reg_email, $email)) {
                 print ("Вы неправильно ввели email<BR>\n");

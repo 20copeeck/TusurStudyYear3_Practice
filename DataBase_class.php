@@ -1,17 +1,38 @@
 <?php
 
+/**
+ * Class DataBase
+ *
+ * Create and delete connection to MySQL database
+ * @return object
+ */
 class DataBase
 {
-    public static $Connect;	// Хранит результат соединения с базой данных
-    public static $Select;	// Хранит результат выбора базы данных
+    /**
+     * Stores the result of the database connection
+     *
+     * @var object|bool
+     */
+    private static $Connect;
+    /**
+     * Stores the result of selecting a database
+     *
+     * @var bool
+     */
+    private static $Select;
 
-    // Метод создает соединение с базой данных
+    /**
+     * Creates a database connection
+     *
+     * @param string $host Hostname
+     * @param string $user Username MySQL
+     * @param string $password User password MySQL
+     * @param string $database Database name
+     * @return bool|false|mysqli|Stores
+     */
     public static function ConnectDB($host, $user, $password, $database)
     {
-        // Пробуем создать соединение с базой данных
         self::$Connect = mysqli_connect($host, $user, $password);
-
-        // Если подключение не прошло, вывести сообщение об ошибке..
         if(!self::$Connect)
         {
             echo "<p><b>Не удалось подключиться к серверу MySQL</b></p>";
@@ -19,10 +40,7 @@ class DataBase
             return false;
         }
 
-        // Пробуем выбрать базу данных
         self::$Select = mysqli_select_db(self::$Connect, $database);
-
-        // Если база данных не выбрана, вывести сообщение об ошибке..
         if(!self::$Select)
         {
             echo "<p><b>".mysqli_error()."</b></p>";
@@ -30,14 +48,16 @@ class DataBase
             return false;
         }
 
-        // Возвращаем результат
         return self::$Connect;
     }
 
-    // Метод закрывает соединение с базой данных
+    /**
+     *Closes the database connection
+     *
+     * @return bool
+     */
     public static function Close()
     {
-        // Возвращает результат
         return mysqli_close(self::$Connect);
     }
 }

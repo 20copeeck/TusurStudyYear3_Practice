@@ -1,9 +1,7 @@
 {% extends "main_layout.html" %}
-
 {% block content %}
-
-<div id="login">
-    <h2>Добро пожаловать на наш сайт</h2>
+<div class="login">
+    <h2>Вход</h2>
     <form action="index.php" method="post" name="login">
         <table>
             <tbody>
@@ -29,7 +27,7 @@
     </form>
 </div>
 
-<div id="register">
+<div class="register">
     <h2>Регистрация</h2>
 
     <form action="index.php" method="post" name="register">
@@ -51,7 +49,6 @@
                 <td> Email: </td>
                 <td>
                     <input type="email" name="email" required><br>
-                    <span id="valid_email_message" class="mesage_error"></span>
                 </td>
             </tr>
             <tr>
@@ -70,7 +67,6 @@
                 <td> Пароль: </td>
                 <td>
                     <input type="password" name="password" required><br>
-                    <span id="valid_password_message" class="mesage_error"></span>
                 </td>
             </tr>
             <tr>
@@ -81,26 +77,4 @@
             </tbody></table>
     </form>
 </div>
-
-
-<!--<table border="1" style="width: 80%;">
-    <thead>
-    <tr>
-        <td>Имя</td>
-        <td>Предмет</td>
-        <td>Возраст</td>
-        <td>Начал(а) работать</td>
-    </tr>
-    </thead>
-    <tbody>
-    {% for staffer in staff %}
-    <tr>
-        <td>{{ staffer.name }}</td>
-        <td>{{ staffer.description }}</td>
-        <td>{{ staffer.age }}</td>
-        <td>{{ staffer.date_register|date("m/d/Y") }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>-->
 {% endblock %}
