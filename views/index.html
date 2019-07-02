@@ -1,80 +1,39 @@
 {% extends "main_layout.html" %}
+{% block header %}
+<ul>
+    <li><a href="/">Главная</a></li>
+    <li><a href="/">Новости</a></li>
+    <li><a href="/">Контакты</a></li>
+    <li><a href="/">О нас</a></li>
+</ul>
+{% endblock %}
+
 {% block content %}
-<div class="login">
-    <h2>Вход</h2>
-    <form action="index.php" method="post" name="login">
-        <table>
-            <tbody>
-            <tr>
-                <td> Логин:</td>
-                <td>
-                    <input type="login" name="login" required="required"><br>
-                </td>
-            </tr>
-            <tr>
-                <td> Пароль:</td>
-                <td>
-                    <input type="password" name="password" required="required"><br>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="submit" name="submit_login" value="Войти">
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </form>
+<div class="articles">
+    <img src="../img/2.jpg">
+    <h2>Статья 1</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse id magnam mollitia, nam obcaecati officiis rem! Consectetur cum, dolorum ea iusto minima modi obcaecati perferendis provident repudiandae saepe sint, vero?</p>
+    <a href="/">Читать полностью</a>
 </div>
+<div class="articles">
+    <img src="../img/3.jpg">
+    <h2>Статья 2</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus assumenda autem delectus, dignissimos doloribus eaque, eius fugiat ipsam iusto libero maiores minus perspiciatis placeat provident qui quia quisquam quo totam.</p>
+    <a href="/">Читать полностью</a>
+</div>
+{% endblock %}
 
-<div class="register">
-    <h2>Регистрация</h2>
-
-    <form action="index.php" method="post" name="register">
-        <table>
-            <tbody>
-            <tr>
-                <td> Имя: </td>
-                <td>
-                    <input type="text" name="name" required>
-                </td>
-            </tr>
-            <tr>
-                <td> Фамилия: </td>
-                <td>
-                    <input type="text" name="surname" required>
-                </td>
-            </tr>
-            <tr>
-                <td> Email: </td>
-                <td>
-                    <input type="email" name="email" required><br>
-                </td>
-            </tr>
-            <tr>
-                <td> Номер телефона: </td>
-                <td>
-                    <input type="phone" name="phone" required pattern="^[0-9]{11}" required><br>
-                </td>
-            </tr>
-            <tr>
-                <td> Логин: </td>
-                <td>
-                    <input type="text" name="login" required>
-                </td>
-            </tr>
-            <tr>
-                <td> Пароль: </td>
-                <td>
-                    <input type="password" name="password" required><br>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="submit" name="submit_register" value="Зарегистрироватся">
-                </td>
-            </tr>
-            </tbody></table>
+{% block section %}
+<div class="login">
+    <form action="index.php" method="post" name="login">
+        <label>Логин:</label>
+        <input type="login" name="login" required>
+        <label>Пароль:</label>
+        <input type="password" name="password" required>
+        <button type="submit" name="submit_login">Вход</button>
+        <a href="register.php">Регистрация</a>
     </form>
 </div>
 {% endblock %}
+
+
