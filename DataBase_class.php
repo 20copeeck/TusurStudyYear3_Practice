@@ -9,56 +9,53 @@
 class DataBase
 {
     /**
-     * Stores the result of the database connection
+     * Single instance class
      *
-     * @var object|bool
+     * @var null
      */
-    private static $Connect;
+    private static $db = null;
     /**
-     * Stores the result of selecting a database
+     * Database connection
      *
-     * @var bool
+     * @var mysqli
      */
-    private static $Select;
+    private $mysqli;
 
     /**
-     * Creates a database connection
+     *Getting an instance of a class. If it already exists,
+     * it returns; if it does not exist, it is created and returned.
      *
-     * @param string $host Hostname
-     * @param string $user Username MySQL
-     * @param string $password User password MySQL
-     * @param string $database Database name
-     * @return bool|false|mysqli|Stores
+     * @return DataBase|null
      */
-    public static function ConnectDB($host, $user, $password, $database)
-    {
-        self::$Connect = mysqli_connect($host, $user, $password);
-        if(!self::$Connect)
-        {
-            echo "<p><b>Не удалось подключиться к серверу MySQL</b></p>";
-            exit();
-            return false;
+    public static function getDB() {
+        if (self::$db == null){
+            self::$db = new DataBase();
         }
-
-        self::$Select = mysqli_select_db(self::$Connect, $database);
-        if(!self::$Select)
-        {
-            echo "<p><b>".mysqli_error()."</b></p>";
-            exit();
-            return false;
-        }
-
-        return self::$Connect;
+        return self::$db;
     }
 
     /**
-     *Closes the database connection
+     * Connects to the database, sets the locale
+     * and encoding of the connection.
      *
-     * @return bool
+     * DataBase constructor.
      */
-    public static function Close()
-    {
-        return mysqli_close(self::$Connect);
+    private function __construct() {
+        $this->mysqli = new mysqli("localhost", "root", "", "newdb");
+        $this->mysqli->query("SET lc_time_names = 'ru_RU'");
+        $this->mysqli->query("SET NAMES 'utf8'");
+    }
+
+    /**
+     * When the object is destroyed,
+     * the database connection is closed.
+     *
+     * DataBase destructor.
+     */
+    public function __destruct() {
+        if ($this->mysqli) {
+            $this->mysqli->close();
+        }
     }
 }
 ?>
