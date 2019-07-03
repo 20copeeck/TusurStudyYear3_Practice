@@ -3,8 +3,8 @@
 /**
  * Class DataBase
  *
- * Create and delete connection to MySQL database
- * @return object
+ * Creates a connection to the database
+ * and allows you to work with it
  */
 class DataBase
 {
@@ -22,6 +22,19 @@ class DataBase
     private $mysqli;
 
     /**
+     * Connects to the database, sets the locale
+     * and encoding of the connection.
+     *
+     * DataBase constructor.
+     */
+    private function __construct() {
+        $param = parse_ini_file("config.ini");
+        $this->mysqli = new mysqli($param['DB_SERVER'], $param['DB_USERNAME'], $param['DB_PASSWORD'], $param['DB_DATABASE']);
+        $this->mysqli->query("SET lc_time_names = 'ru_RU'");
+        $this->mysqli->query("SET NAMES 'utf8'");
+    }
+
+    /**
      *Getting an instance of a class. If it already exists,
      * it returns; if it does not exist, it is created and returned.
      *
@@ -35,15 +48,30 @@ class DataBase
     }
 
     /**
-     * Connects to the database, sets the locale
-     * and encoding of the connection.
+     * Performs MySQL queries
      *
-     * DataBase constructor.
+     * @param $act
+     * @param $query
+     * @return array|bool|mysqli_result|null
      */
-    private function __construct() {
-        $this->mysqli = new mysqli("localhost", "root", "", "newdb");
-        $this->mysqli->query("SET lc_time_names = 'ru_RU'");
-        $this->mysqli->query("SET NAMES 'utf8'");
+    public function query($act, $query) {
+        if($act == 'SELECT'){
+            $query = mysqli_query($this->mysqli, $query);
+            $result = mysqli_fetch_array($query);
+        }else{
+            $result = mysqli_query($this->mysqli, $query);
+        }
+        return $result;
+    }
+
+    /**
+     * Encodes a string
+     *
+     * @param $string
+     * @return string
+     */
+    public function encoding($string) {
+        return $result = mysqli_real_escape_string($this->mysqli, $string);
     }
 
     /**
