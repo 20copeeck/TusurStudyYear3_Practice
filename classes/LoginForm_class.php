@@ -1,11 +1,6 @@
 <?php
 
 /**
- * @see DataBase_class
- */
-require_once 'DataBase_class.php';
-
-/**
  * Class LoginForm
  *
  * User login to account
@@ -32,14 +27,22 @@ class LoginForm
     private $result;
 
     /**
+     * DataBase class object
+     *
+     * @var
+     */
+    private $db;
+
+    /**
      * LoginForm constructor
      *
      * @param array $data
      */
-    public function __construct(Array $data)
+    public function __construct(Array $data, $db)
     {
         $this->login = isset($data['login']) ? $data['login'] : null;
         $this->password = isset($data['password']) ? $data['password'] : null;
+        $this->db = $db;
     }
 
     /**
@@ -59,9 +62,8 @@ class LoginForm
      */
     public function checkLogin()
     {
-        $db = DataBase::getDB();
         $query = "SELECT * FROM users WHERE login = '$this->login'";
-        $this->result = $db->select($query);
+        $this->result = $this->db->select($query);
         return $this->result['login'] == $this->login;
     }
 

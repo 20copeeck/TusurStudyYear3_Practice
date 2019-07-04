@@ -1,11 +1,6 @@
 <?php
 
 /**
- * @see DataBase_class
- */
-require_once 'DataBase_class.php';
-
-/**
  * Class RegistrationForm
  *
  * Register user account
@@ -48,13 +43,19 @@ class RegistrationForm
      * @var mixed|null
      */
     private $password;
+    /**
+     * DataBase class object
+     *
+     * @var
+     */
+    private $db;
 
     /**
      * RegistrationForm constructor
      *
      * @param array $data
      */
-    public function __construct(Array $data)
+    public function __construct(Array $data, $db)
     {
         $this->name = isset($data['name']) ? $data['name'] : null;
         $this->surname = isset($data['surname']) ? $data['surname'] : null;
@@ -62,6 +63,7 @@ class RegistrationForm
         $this->phone = isset($data['phone']) ? $data['phone'] : null;
         $this->login = isset($data['login']) ? $data['login'] : null;
         $this->password = isset($data['password']) ? $data['password'] : null;
+        $this->db = $db;
     }
 
     /**
@@ -81,9 +83,8 @@ class RegistrationForm
      */
     public function checkLogin()
     {
-        $db = DataBase::getDB();
         $query = "SELECT * FROM users WHERE login = '$this->login'";
-        $result = $db->select($query);
+        $result = $this->db->select($query);
         return empty($result['id']);
     }
 
@@ -94,9 +95,8 @@ class RegistrationForm
      */
     public function insertDB()
     {
-        $db = DataBase::getDB();
         $query = "INSERT into users (name, surname, email, phone, login, password) values ('$this->name', '$this->surname', '$this->email',  '$this->phone', '$this->login', '$this->password')";
-        return empty($db->insert($query));
+        return empty($this->db->insert($query));
     }
 }
 ?>
