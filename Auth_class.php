@@ -5,11 +5,6 @@
  */
 require_once 'DataBase_class.php';
 
-/**
- * Register user and log in user
- *
- * Class Authentication
- */
 class Authentication
 {
     /**
@@ -50,7 +45,7 @@ class Authentication
             $email = $db->encoding(trim($_POST['email']));
             $reg_email = "/^[a-z0-9][a-z0-9\._-]*[a-z0-9]*@([a-z0-9]+([a-z0-9-]*[a-z0-9]+)*\.)+[a-z]+/i";
             if (!preg_match($reg_email, $email)) {
-                print ("Вы неправильно ввели email");
+                exit("Вы неправильно ввели email");
             }
             $phone = $db->encoding(trim($_POST['phone']));
             $login = $db->encoding(trim($_POST['login']));
