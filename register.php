@@ -1,24 +1,15 @@
 <?php
 
 require_once __DIR__ . '/init.php';
-require_once('classes/RegistrationForm_class.php');
+require_once 'classes/RegistrationForm_class.php';
 require_once 'classes/DataBase_class.php';
 
-$form = new RegistrationForm($_POST,  DataBase::getDB());
+if(isset($_POST['submit_register'])){
+    $param = parse_ini_file("config.ini");
+    $obj = DataBase::getDB($param['DB_SERVER'], $param['DB_USERNAME'], $param['DB_PASSWORD'], $param['DB_DATABASE']);
+    $form = new RegistrationForm($_POST);
 
-if ($_POST) {
-    if ($form->checkVoid()) {
-        if ($form->checkLogin()) {
-            if (!$form->insertDB()) {
-                echo 'Вы успешно зарегистрированы';
-            } else {
-                echo 'Ошибка регистрации';
-            }
-        } else {
-            echo 'Такой логин уже существует';
-        }
-    } else {
-        echo 'Не все поля заполнены';
-    }
+    $form->register($obj);
 }
+
 echo $twig->render('register.html');

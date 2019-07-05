@@ -1,12 +1,16 @@
 <?php
 
 /**
+ * @see interface IData
+ */
+require dirname(__DIR__).'\interface.php';
+
+/**
  * Class DataBase
  *
- * Creates a connection to the database
- * and allows you to work with it
+ * Class for user login and registration via database
  */
-class DataBase
+class DataBase implements IData
 {
     /**
      * Single instance class
@@ -22,15 +26,16 @@ class DataBase
     private $mysqli;
 
     /**
-     * Connects to the database, sets the locale
-     * and encoding of the connection
-     *
      * DataBase constructor
+     *
+     * @param $host
+     * @param $username
+     * @param $password
+     * @param $database
      */
-    private function __construct()
+    private function __construct($host, $username, $password, $database)
     {
-        $param = parse_ini_file("config.ini");
-        $this->mysqli = new mysqli($param['DB_SERVER'], $param['DB_USERNAME'], $param['DB_PASSWORD'], $param['DB_DATABASE']);
+        $this->mysqli = new mysqli($host, $username, $password, $database);
         $this->mysqli->query("SET lc_time_names = 'ru_RU'");
         $this->mysqli->query("SET NAMES 'utf8'");
     }
@@ -39,35 +44,45 @@ class DataBase
      * Getting an instance of a class. If it already exists,
      * it returns; if it does not exist, it is created and returned
      *
+     * @param $host
+     * @param $username
+     * @param $password
+     * @param $database
      * @return DataBase|null
      */
-    public static function getDB()
+    public static function getDB($host, $username, $password, $database)
     {
         if (self::$db == null) {
-            self::$db = new DataBase();
+            self::$db = new DataBase($host, $username, $password, $database);
         }
         return self::$db;
     }
 
     /**
-     * Executes a mysql query to remove
-     * data from the database.
+     * Data output from the database
      *
-     * @param $query
+     * @param $login
      * @return array|null
      */
-    public function select($query){
-        $query = mysqli_query($this->mysqli, $query);
-        return mysqli_fetch_array($query);
+    public function derive($login){
+        $query = "SELECT * FROM users WHERE login = '$login'";
+        $result = mysqli_query($this->mysqli, $query);
+        return mysqli_fetch_array($result);
     }
 
     /**
-     * Executes a mysql query for data expansion
+     * Entering data into the database
      *
-     * @param $query
+     * @param $name
+     * @param $surname
+     * @param $email
+     * @param $phone
+     * @param $login
+     * @param $password
      * @return bool|mysqli_result
      */
-    public function insert($query){
+    public function insert($name, $surname, $email, $phone, $login, $password){
+        $query = "INSERT into users (name, surname, email, phone, login, password) values ('$name', '$surname', '$email', '$phone', '$login', '$password')";
         return mysqli_query($this->mysqli, $query);
     }
 

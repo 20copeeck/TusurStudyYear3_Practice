@@ -20,29 +20,21 @@ class LoginForm
      */
     private $password;
     /**
-     * Result of query to database
+     * Result of query
      *
      * @var mixed|null
      */
     private $result;
 
     /**
-     * DataBase class object
-     *
-     * @var
-     */
-    private $db;
-
-    /**
      * LoginForm constructor
      *
      * @param array $data
      */
-    public function __construct(Array $data, $db)
+    public function __construct(Array $data)
     {
         $this->login = isset($data['login']) ? $data['login'] : null;
         $this->password = isset($data['password']) ? $data['password'] : null;
-        $this->db = $db;
     }
 
     /**
@@ -50,31 +42,31 @@ class LoginForm
      *
      * @return bool
      */
-    public function checkVoid()
+    private function checkVoid()
     {
         return !empty($this->login) && !empty($this->password);
     }
 
     /**
-     * Verify login with database
+     * Login feature
      *
-     * @return bool
+     * @param IData $obj
      */
-    public function checkLogin()
+    public function login(IData $obj)
     {
-        $query = "SELECT * FROM users WHERE login = '$this->login'";
-        $this->result = $this->db->select($query);
-        return $this->result['login'] == $this->login;
-    }
-
-    /**
-     * Verify password with database
-     *
-     * @return bool
-     */
-    public function checkPassword()
-    {
-        return $this->result['password'] == $this->password;
+        if (!$this->checkVoid()) {
+            echo 'Не все поля заполнены';
+            return;
+        }
+        if (!$this->result = $obj->derive($this->login)) {
+            echo 'Такого логина не существует';
+            return;
+        }
+        if ($this->result['password'] != $this->password) {
+            echo 'Неверный пароль';
+            return;
+        }
+        echo "Вы успешно вошли в аккаунт как $this->login";
     }
 }
 ?>
